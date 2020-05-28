@@ -3,12 +3,23 @@ import os
 
 import tweepy
 
-CONSUMER_KEY = os.environ.get('CONSUMER_KEY')
-CONSUMER_SECRET = os.environ.get('CONSUMER_SECRET')
-ACCESS_TOKEN = os.environ.get('ACCESS_TOKEN')
-ACCESS_TOKEN_SECRET = os.environ.get('ACCESS_TOKEN_SECRET')
 
-# Authenticating via OAuth.
-auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
-auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
-api = tweepy.API(auth)
+def get_env():
+    secrets = 'CONSUMER_KEY', 'CONSUMER_SECRET', 'ACCESS_TOKEN', 'ACCESS_TOKEN_SECRET'
+    return {s: os.getenv(s, "Environment variable doesn't exist.") for s in secrets}
+
+
+def authenticate():
+    env_info = get_env()
+    auth = tweepy.OAuthHandler(env_info['CONSUMER_KEY'], env_info['CONSUMER_SECRET'])
+    auth.set_access_token(env_info['ACCESS_TOKEN'], env_info['ACCESS_TOKEN_SECRET'])
+    return tweepy.API(auth)
+
+
+def main():
+    api = authenticate()
+    print(api.me())  # Should print out user information if authentication worked properly.
+
+
+if __name__ == '__main__':
+    main()
