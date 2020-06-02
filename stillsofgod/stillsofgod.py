@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import os
-
+import random
 import tweepy
 
 
@@ -34,7 +34,9 @@ def authenticate():
 
 def main():
     api = authenticate()
-    print(api.me())  # Should print out user information if authentication worked properly.
+
+    # Upload a random image from the list of the directory's contents.
+    return api.update_with_media(random.choice(os.listdir()))
 
 
 if __name__ == '__main__':
