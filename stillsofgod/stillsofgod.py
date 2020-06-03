@@ -34,9 +34,9 @@ def authenticate():
 
 def main():
     api = authenticate()
-    # print(api) # Test to find out if authentication worked.
+    print(api.me())  # Test to find out if authentication worked.
     # Upload a random image from the list of the directory's contents.
-    pictures = [p for p in os.listdir() if p.endswith('jpg')]
+    pictures = os.listdir('tog_images')
     api.update_with_media(random.choice(pictures))
 
 
